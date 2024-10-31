@@ -1,0 +1,160 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "osDiskType": {
+            "value": "StandardSSD_LRS"
+        },
+        "addressPrefixes": {
+            "value": [
+                "10.0.0.0/16"
+            ]
+        },
+        "subnets": {
+            "value": [
+                {
+                    "name": "default",
+                    "properties": {
+                        "addressPrefix": "10.0.0.0/20"
+                    }
+                }
+            ]
+        },
+        "virtualNetworkId": {
+            "value": "/subscriptions/1dba5540-2771-4f4f-9434-9f0150a9c88f/resourceGroups/DACR-RG/providers/Microsoft.Network/virtualNetworks/DACR-RG-vnet"
+        },
+        "virtualNetworkName": {
+            "value": "DACR-RG-vnet"
+        },
+        "networkSecurityGroups": {
+            "value": [
+                {
+                    "name": "basicNsgDACR-RG-vnet-nic01",
+                    "id": "/subscriptions/1dba5540-2771-4f4f-9434-9f0150a9c88f/resourceGroups/DACR-RG/providers/Microsoft.Network/networkSecurityGroups/basicNsgDACR-RG-vnet-nic01",
+                    "rules": [
+                        {
+                            "name": "Tcp",
+                            "properties": {
+                                "priority": 300,
+                                "protocol": "Tcp",
+                                "access": "Allow",
+                                "direction": "Inbound",
+                                "sourceAddressPrefix": "*",
+                                "sourcePortRange": "*",
+                                "destinationAddressPrefix": "*",
+                                "destinationPortRange": "80"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "networkInterfaceConfigurations": {
+            "value": [
+                {
+                    "name": "DACR-RG-vnet-nic01",
+                    "primary": true,
+                    "subnetId": "/subscriptions/1dba5540-2771-4f4f-9434-9f0150a9c88f/resourceGroups/DACR-RG/providers/Microsoft.Network/virtualNetworks/DACR-RG-vnet/subnets/default",
+                    "applicationGatewayBackendAddressPools": [],
+                    "loadBalancerBackendAddressPools": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancerName'), parameters('backendPoolName'))]"
+                        }
+                    ],
+                    "applicationSecurityGroups": [],
+                    "loadBalancerInboundNatPools": [],
+                    "enableAcceleratedNetworking": false,
+                    "nsgName": "basicNsgDACR-RG-vnet-nic01",
+                    "nsgId": "/subscriptions/1dba5540-2771-4f4f-9434-9f0150a9c88f/resourceGroups/DACR-RG/providers/Microsoft.Network/networkSecurityGroups/basicNsgDACR-RG-vnet-nic01",
+                    "pipName": "publicIp-DACR-RG-vnet-nic01"
+                }
+            ]
+        },
+        "backendPoolName": {
+            "value": "bepool"
+        },
+        "loadBalancerName": {
+            "value": "DACR-lbs"
+        },
+        "loadbalancingRuleFrontEndPort": {
+            "value": 80
+        },
+        "loadbalancingRuleBackendEndPort": {
+            "value": 80
+        },
+        "loadbalancingRuleProtocol": {
+            "value": "Tcp"
+        },
+        "InboundNATRuleFrontEndPortRangeStart": {
+            "value": 50000
+        },
+        "vmName": {
+            "value": "DACR-VMSS"
+        },
+        "virtualMachineScaleSetName": {
+            "value": "DACR-VMSS"
+        },
+        "instanceCount": {
+            "value": "2"
+        },
+        "instanceSize": {
+            "value": "Standard_D2pds_v6"
+        },
+        "platformFaultDomainCount": {
+            "value": "1"
+        },
+        "scaleInPolicy": {
+            "value": {
+                "rules": [
+                    "Default"
+                ],
+                "forceDeletion": false
+            }
+        },
+        "upgradePolicy": {
+            "value": "Manual"
+        },
+        "hibernationEnabled": {
+            "value": false
+        },
+        "adminUsername": {
+            "value": "damiencr"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "customData": {
+            "value": null
+        },
+        "securityType": {
+            "value": "TrustedLaunch"
+        },
+        "secureBoot": {
+            "value": true
+        },
+        "vTPM": {
+            "value": true
+        },
+        "healthExtensionProtocol": {
+            "value": "http"
+        },
+        "healthExtensionPort": {
+            "value": 80
+        },
+        "healthExtensionRequestPath": {
+            "value": "/"
+        },
+        "autoRepairsPolicyEnabled": {
+            "value": false
+        },
+        "gracePeriod": {
+            "value": "PT10M"
+        },
+        "autoRepairsAction": {
+            "value": "Replace"
+        }
+    }
+}
